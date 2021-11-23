@@ -1,8 +1,11 @@
 use std::vec::Vec;
 use std::io::{BufReader, BufRead};
 use std::fs::File;
-extern crate quick_r_sort;
-use quick_r_sort::quick_r_sort::quick_sort;
+extern crate sort_lib;
+use sort_lib::quick_sort::quick_sort;
+// use quick_r_sort::quick_r_sort::quick_sort;
+
+
 
 
 
@@ -26,6 +29,7 @@ fn main() {
     quick_sort(&mut vector.clone());
 
 
+    // println!("{:?}", vector);
     println!("Done sorting");
 
     
