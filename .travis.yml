@@ -5,6 +5,7 @@ dist: trusty
 language: rust
 services: docker
 sudo: required
+cache: cargo
 
 # TODO Rust builds on stable by default, this can be
 # overridden on a case by case basis down below.
@@ -48,7 +49,7 @@ matrix:
     - env: TARGET=mips64el-unknown-linux-gnuabi64
     - env: TARGET=mipsel-unknown-linux-gnu
     - env: TARGET=powerpc-unknown-linux-gnu
-    - env: TARGET=powerpc64-unknown-linux-gnu
+    # - env: TARGET=powerpc64-unknown-linux-gnu
     - env: TARGET=powerpc64le-unknown-linux-gnu
     - env: TARGET=s390x-unknown-linux-gnu DISABLE_TESTS=1
     - env: TARGET=x86_64-unknown-linux-gnu
@@ -61,8 +62,8 @@ matrix:
       os: osx
 
     # *BSD
-    - env: TARGET=i686-unknown-freebsd DISABLE_TESTS=1
-    - env: TARGET=x86_64-unknown-freebsd DISABLE_TESTS=1
+    # - env: TARGET=i686-unknown-freebsd DISABLE_TESTS=1
+    # - env: TARGET=x86_64-unknown-freebsd DISABLE_TESTS=1
     - env: TARGET=x86_64-unknown-netbsd DISABLE_TESTS=1
 
     # Windows
@@ -82,6 +83,14 @@ matrix:
     - env: TARGET=x86_64-apple-darwin
       os: osx
       rust: nightly
+
+    - name: 'Rust: code coverage'
+        rust: stable
+        os: linux
+        install:
+        - cargo install cargo-tarpaulin
+        script:
+        - cargo tarpaulin --workspace --verbose --ciserver travis-ci --coveralls $TRAVIS_JOB_ID
 
 before_install:
   - set -e
