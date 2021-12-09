@@ -1,4 +1,5 @@
 # This script takes care of building your crate and packaging it for release
+#!/bin/bash
 
 set -ex
 
@@ -21,7 +22,11 @@ main() {
     cross rustc --bin quicksorter --release --target $TARGET 
 
     # TODO Update this to package the right artifacts
-    cp target/$TARGET/release/quicksorter $stage/
+    TEMP_TARGET=$(ls target/ | grep $TARGET*)
+
+    TEMP_EXE=$(ls target/$TEMP_TARGET/release/ | grep -E -x -m 1 "quicksorter(|\.exe)")
+
+    cp target/$TEMP_TARGET/release/$TEMP_EXE $stage/
 
     cd $stage
     tar czf $src/$CRATE_NAME-$TRAVIS_TAG-$TARGET.tar.gz *
