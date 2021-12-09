@@ -9,3 +9,7 @@ edition = "2021"
 
 [dependencies]
 sort-lib = { path = "sort-lib" }
+
+
+[profile.release]
+lto = true
