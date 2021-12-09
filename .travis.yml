@@ -84,13 +84,13 @@ matrix:
       os: osx
       rust: nightly
       
-    - name: 'Rust: code coverage'
-      rust: stable
-      os: linux
-      install:
-      - cargo install cargo-tarpaulin
-      script:
-      - cargo tarpaulin --workspace --verbose --ciserver travis-ci --coveralls $TRAVIS_JOB_ID
+    # - name: 'Rust: code coverage'
+    #   rust: stable
+    #   os: linux
+    #   install:
+    #   - cargo install cargo-tarpaulin
+    #   script:
+    #   - cargo tarpaulin --workspace --verbose --ciserver travis-ci --coveralls $TRAVIS_JOB_ID
      
 
 
@@ -102,6 +102,11 @@ before_install:
 install:
   - sh ci/install.sh
   - source ~/.cargo/env || true
+
+test: 
+  - cargo install cargo-tarpaulin
+  - cargo tarpaulin --workspace --ciserver travis-ci --coveralls $TRAVIS_JOB_ID
+
 
 script:
   - bash ci/script.sh
